@@ -4,31 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Lost Item</title>
+    <title>Report Lost Item | LostMatch</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-    <h1>Report a Lost Item</h1>
-    <p>Tell us about the item you have lost.</p>
+<body class="form-page">
 
-    <form>
-        <label>Item Name:</label><br>
-        <input type="text" placeholder="Enter item name" required><br><br>
+    <div class="form-container">
 
-        <label>Description:</label><br>
-        <textarea placeholder="Describe your lost item" required></textarea><br><br>
+        <h1>Report a Lost Item</h1>
+        <p>Lost something on campus? Let us help you find it!</p>
 
-        <label>Location Lost:</label><br>
-        <input type="text" placeholder="Where did you lose it?" required><br><br>
+        <form id="lostForm">
 
-        <label>Date Lost:</label><br>
-        <input type="date" required><br><br>
+            <label for="itemName">Item Name</label>
+            <input type="text" id="itemName"
+                placeholder="Example: Blue Water Bottle" required>
 
-        <button type="submit">Submit Report</button>
-    </form>
+            <label for="category">Item Category</label>
+            <select id="category" required>
+                <option value="">Select Category</option>
+                <option>Electronics</option>
+                <option>Books and Notes</option>
+                <option>ID Cards</option>
+                <option>Clothing</option>
+                <option>Accessories</option>
+                <option>Other</option>
+            </select>
 
-    <p><a href="index.html">Back to Home</a></p>
+            <label for="description">Description</label>
+            <textarea id="description"
+                placeholder="Describe your lost item" required></textarea>
+
+            <label for="location">Location Lost</label>
+            <input type="text" id="location"
+                placeholder="Where did you lose it?" required>
+
+            <label for="date">Date Lost</label>
+            <input type="date" id="date" required>
+
+            <label for="contact">Contact Email</label>
+            <input type="email" id="contact"
+                placeholder="Enter your email address" required>
+
+            <button type="submit">Submit Lost Report</button>
+
+        </form>
+
+        <p><a href="index.html">← Back to Home</a></p>
+
+    </div>
+
+    <script>
+        document.getElementById("lostForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            alert("Your lost item report has been submitted successfully!");
+
+            this.reset();
+        });
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,242 @@
+
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9ff;
+    color: #20213a;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 8%;
+    background-color: white;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #29265c;
+}
+
+.logo span {
+    color: #7965e8;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #34344f;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #7965e8;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 520px;
+    padding: 80px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    background: linear-gradient(120deg, #eeedff, #f8f9ff);
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.tagline {
+    color: #7965e8;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 22px;
+    color: #29265c;
+}
+
+.hero h1 span {
+    color: #7965e8;
+}
+
+.description {
+    color: #65657a;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn {
+    padding: 15px 23px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.primary {
+    background-color: #7965e8;
+    color: white;
+}
+
+.secondary {
+    background-color: white;
+    color: #7965e8;
+    border: 2px solid #7965e8;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Hero Image Card */
+.hero-image {
+    width: 350px;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7965e8, #a99af5);
+    border-radius: 25px;
+    padding: 25px;
+}
+
+.image-card {
+    text-align: center;
+    color: white;
+}
+
+.emoji {
+    font-size: 75px;
+    margin-bottom: 20px;
+}
+
+.image-card h2 {
+    margin-bottom: 12px;
+}
+
+/* How It Works */
+.how-it-works {
+    padding: 75px 8%;
+    text-align: center;
+}
+
+.how-it-works h2 {
+    font-size: 34px;
+    color: #29265c;
+}
+
+.section-description {
+    color: #77778a;
+    margin: 15px 0 40px;
+}
+
+.steps {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.step-card {
+    background-color: white;
+    padding: 35px 25px;
+    border-radius: 15px;
+    flex: 1;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.step-icon {
+    font-size: 42px;
+    margin-bottom: 18px;
+}
+
+.step-card h3 {
+    color: #7965e8;
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    color: #77778a;
+    line-height: 1.6;
+}
+
+/* Footer */
+footer {
+    background-color: #29265c;
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+    line-height: 2;
+}
+
+.copyright {
+    font-size: 13px;
+    color: #c4c0e9;
+    margin-top: 10px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 55px 6%;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-image {
+        width: 100%;
+    }
+
+    .steps {
+        flex-direction: column;
+    }
+}

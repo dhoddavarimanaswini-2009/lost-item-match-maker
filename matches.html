@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Items | LostMatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="form-page">
+
+    <div class="form-container">
+
+        <h1>Search Items</h1>
+        <p>Looking for something? Search through reported items!</p>
+
+        <form id="searchForm">
+
+            <label for="searchName">Item Name</label>
+            <input type="text" id="searchName"
+                placeholder="Enter item name">
+
+            <label for="searchCategory">Category</label>
+            <select id="searchCategory">
+                <option value="">All Categories</option>
+                <option>Electronics</option>
+                <option>Books and Notes</option>
+                <option>ID Cards</option>
+                <option>Clothing</option>
+                <option>Accessories</option>
+                <option>Other</option>
+            </select>
+
+            <label for="itemType">Report Type</label>
+            <select id="itemType">
+                <option value="">All Reports</option>
+                <option value="lost">Lost Items</option>
+                <option value="found">Found Items</option>
+            </select>
+
+            <button type="submit">Search Items</button>
+
+        </form>
+
+        <div id="searchResults">
+            <h2>Search Results</h2>
+            <p>Enter your search details to find items.</p>
+        </div>
+
+        <p><a href="index.html">← Back to Home</a></p>
+
+    </div>
+
+    <script>
+        // Sample items for demonstration
+        const items = [
+            {
+                name: "Blue Water Bottle",
+                category: "Other",
+                type: "lost",
+                location: "College Library",
+                description: "A blue water bottle."
+            },
+            {
+                name: "Black Wallet",
+                category: "Accessories",
+                type: "found",
+                location: "College Canteen",
+                description: "A black wallet was found."
+            },
+            {
+                name: "Physics Textbook",
+                category: "Books and Notes",
+                type: "lost",
+                location: "Classroom",
+                description: "First year Physics textbook."
+            },
+            {
+                name: "Earphones",
+                category: "Electronics",
+                type: "found",
+                location: "College Lab",
+                description: "A pair of earphones."
+            }
+        ];
+
+        const searchForm = document.getElementById("searchForm");
+        const results = document.getElementById("searchResults");
+
+        searchForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("searchName")
+                .value.trim().toLowerCase();
+
+            const category = document.getElementById("searchCategory").value;
+
+            const type = document.getElementById("itemType").value;
+
+            const filteredItems = items.filter(item => {
+                return (
+                    item.name.toLowerCase().includes(name) &&
+                    (!category || item.category === category) &&
+                    (!type || item.type === type)
+                );
+            });
+
+            results.innerHTML = "<h2>Search Results</h2>";
+
+            if (filteredItems.length === 0) {
+                results.innerHTML +=
+                    "<p>No matching items found. Try another search.</p>";
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "result-card";
+
+                const heading = document.createElement("h3");
+                heading.textContent = item.name;
+
+                const description = document.createElement("p");
+                description.textContent = item.description;
+
+                const categoryText = document.createElement("p");
+                categoryText.textContent = "Category: " + item.category;
+
+                const locationText = document.createElement("p");
+                locationText.textContent = "Location: " + item.location;
+
+                const typeText = document.createElement("p");
+                typeText.textContent = "Report: " + item.type.toUpperCase();
+
+                card.append(
+                    heading, description, categoryText,
+                    locationText, typeText
+                );
+
+                results.appendChild(card);
+            });
+        });
+    </script>
+
+</body>
+</html>

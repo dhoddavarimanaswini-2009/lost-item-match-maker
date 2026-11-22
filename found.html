@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Found Item | LostMatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Report a Found Item</h1>
+    <p>Found something on campus? Help its owner get it back!</p>
+
+    <form id="foundForm">
+
+        <label for="itemName">Item Name:</label><br>
+        <input type="text" id="itemName"
+               placeholder="Example: Water Bottle" required>
+        <br><br>
+
+        <label for="category">Item Category:</label><br>
+        <select id="category" required>
+            <option value="">Select Category</option>
+            <option>Electronics</option>
+            <option>Books and Notes</option>
+            <option>ID Cards</option>
+            <option>Clothing</option>
+            <option>Accessories</option>
+            <option>Other</option>
+        </select>
+        <br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description"
+                  placeholder="Describe the item you found"
+                  required></textarea>
+        <br><br>
+
+        <label for="location">Location Found:</label><br>
+        <input type="text" id="location"
+               placeholder="Where did you find it?" required>
+        <br><br>
+
+        <label for="date">Date Found:</label><br>
+        <input type="date" id="date" required>
+        <br><br>
+
+        <label for="contact">Contact Email:</label><br>
+        <input type="email" id="contact"
+               placeholder="Enter your college email" required>
+        <br><br>
+
+        <button type="submit">Submit Found Report</button>
+
+    </form>
+
+    <p><a href="index.html">Back to Home</a></p>
+
+    <script>
+        document.getElementById("foundForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            alert("Your found item report has been submitted successfully!");
+
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

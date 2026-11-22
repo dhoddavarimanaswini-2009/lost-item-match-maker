@@ -3,265 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Items | LostMatch</title>
+    <title>Search Items</title>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            padding: 30px 15px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            max-width: 750px;
-            margin: 30px auto;
-            padding: 35px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            box-sizing: border-box;
-        }
-
-        h1 {
-            text-align: center;
-            color: #603cba;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin: 15px 0 7px;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            background: #7048c8;
-            color: white;
-            border: none;
-            border-radius: 9px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #5030a5;
-        }
-
-        #results {
-            margin-top: 30px;
-        }
-
-        .result-card {
-            background: #f2edff;
-            border-left: 5px solid #7048c8;
-            padding: 18px;
-            margin: 15px 0;
-            border-radius: 12px;
-        }
-
-        .result-card h3 {
-            color: #603cba;
-            margin-top: 0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .lost {
-            background: #e05b67;
-        }
-
-        .found {
-            background: #27ae75;
-        }
-
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 25px;
-            color: #603cba;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .no-results {
-            text-align: center;
-            color: #777;
-            padding: 20px;
-        }
-    </style>
 </head>
-
 <body>
 
-<div class="container">
+    <nav>
+        <h2>🔍 Lost Item Matchmaker</h2>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="lost.html">Report Lost</a>
+            <a href="found.html">Report Found</a>
+            <a href="matches.html">Search Items</a>
+        </div>
+    </nav>
 
-    <h1>Search Items</h1>
+    <div class="search-container">
 
-    <p class="subtitle">
-        Find your lost belongings or help someone find theirs!
-    </p>
+        <h1>🔎 Search for Items</h1>
+        <p class="subtitle">Find lost or found items on campus.</p>
 
-    <form id="searchForm">
+        <div class="search-box">
 
-        <label>Search by Item Name</label>
-        <input type="text" id="searchName"
-               placeholder="Enter item name">
+            <input type="text" id="searchName"
+                   placeholder="Enter item name...">
 
-        <label>Category</label>
-        <select id="searchCategory">
-            <option value="">All Categories</option>
-            <option>Electronics</option>
-            <option>Books and Notes</option>
-            <option>ID Cards</option>
-            <option>Clothing</option>
-            <option>Accessories</option>
-            <option>Other</option>
-        </select>
+            <select id="searchCategory">
+                <option value="">All Categories</option>
+                <option>Electronics</option>
+                <option>Books</option>
+                <option>Accessories</option>
+                <option>Documents</option>
+                <option>Clothing</option>
+                <option>Others</option>
+            </select>
 
-        <label>Report Type</label>
-        <select id="itemType">
-            <option value="">All Reports</option>
-            <option value="lost">Lost Items</option>
-            <option value="found">Found Items</option>
-        </select>
+            <select id="searchType">
+                <option value="">Lost and Found</option>
+                <option value="lost">Lost Items</option>
+                <option value="found">Found Items</option>
+            </select>
 
-        <button type="submit">Search Items</button>
+            <button onclick="searchItems()" class="btn">
+                Search
+            </button>
 
-    </form>
+            <button onclick="loadItems()" class="btn clear-btn">
+                Show All
+            </button>
 
-    <div id="results"></div>
+        </div>
 
-    <a href="index.html" class="back">
-        ← Back to Home
-    </a>
+        <h2 class="results-heading">Reported Items</h2>
 
-</div>
+        <div id="results"></div>
 
-<script>
+        <a href="index.html" class="back-link">← Back to Home</a>
 
-const results = document.getElementById("results");
+    </div>
 
-function displayItems(items) {
+    <script>
 
-    results.innerHTML = "<h2>Search Results</h2>";
+        function getReports() {
+            return JSON.parse(localStorage.getItem("lostMatchReports")) || [];
+        }
 
-    if (items.length === 0) {
+        function displayItems(items) {
 
-        results.innerHTML +=
-            '<p class="no-results">No matching items found. Try another search!</p>';
+            const results = document.getElementById("results");
+            results.innerHTML = "";
 
-        return;
-    }
+            if (items.length === 0) {
+                results.innerHTML =
+                    "<p class='no-results'>No matching items found.</p>";
+                return;
+            }
 
-    items.forEach(item => {
+            items.forEach(item => {
 
-        const card = document.createElement("div");
-        card.className = "result-card";
+                const card = document.createElement("div");
+                card.className = "item-card";
 
-        const heading = document.createElement("h3");
-        heading.textContent = item.name;
+                const title = document.createElement("h3");
+                title.textContent = item.name;
 
-        const badge = document.createElement("span");
-        badge.className = "badge " + item.type;
-        badge.textContent = item.type.toUpperCase();
+                const type = document.createElement("span");
+                type.className = item.type === "lost" ? "lost-badge" : "found-badge";
+                type.textContent = item.type.toUpperCase();
 
-        const description = document.createElement("p");
-        description.textContent = "Description: " + item.description;
+                const description = document.createElement("p");
+                description.textContent = "Description: " + item.description;
 
-        const category = document.createElement("p");
-        category.textContent = "Category: " + item.category;
+                const category = document.createElement("p");
+                category.textContent = "Category: " + item.category;
 
-        const location = document.createElement("p");
-        location.textContent = "Location: " + item.location;
+                const location = document.createElement("p");
+                location.textContent = "Location: " + item.location;
 
-        const date = document.createElement("p");
-        date.textContent = "Date: " + item.date;
+                const date = document.createElement("p");
+                date.textContent = "Date: " + item.date;
 
-        card.append(
-            heading,
-            badge,
-            description,
-            category,
-            location,
-            date
-        );
+                card.appendChild(title);
+                card.appendChild(type);
+                card.appendChild(description);
+                card.appendChild(category);
+                card.appendChild(location);
+                card.appendChild(date);
 
-        results.appendChild(card);
+                if (item.email) {
+                    const contact = document.createElement("a");
 
-    });
+                    contact.href = "mailto:" + item.email;
+                    contact.textContent = "Contact Reporter";
+                    contact.className = "btn contact-btn";
 
-}
+                    card.appendChild(contact);
+                }
 
-// Display all saved reports when the page opens
-function loadItems() {
+                results.appendChild(card);
 
-    const reports =
-        JSON.parse(localStorage.getItem("lostMatchReports")) || [];
+            });
+        }
 
-    displayItems(reports);
+        function searchItems() {
 
-}
+            const name = document.getElementById("searchName").value
+                .trim().toLowerCase();
 
-// Search functionality
-document.getElementById("searchForm").addEventListener("submit", function(event) {
+            const category = document.getElementById("searchCategory").value;
 
-    event.preventDefault();
+            const type = document.getElementById("searchType").value;
 
-    const name = document.getElementById("searchName")
-        .value.trim().toLowerCase();
+            const reports = getReports();
 
-    const category = document.getElementById("searchCategory").value;
+            const filtered = reports.filter(item => {
 
-    const type = document.getElementById("itemType").value;
+                const matchesName = item.name.toLowerCase().includes(name);
 
-    const reports =
-        JSON.parse(localStorage.getItem("lostMatchReports")) || [];
+                const matchesCategory =
+                    category === "" || item.category === category;
 
-    const filtered = reports.filter(item => {
+                const matchesType =
+                    type === "" || item.type === type;
 
-        return (
-            item.name.toLowerCase().includes(name) &&
-            (!category || item.category === category) &&
-            (!type || item.type === type)
-        );
+                return matchesName && matchesCategory && matchesType;
 
-    });
+            });
 
-    displayItems(filtered);
+            displayItems(filtered);
+        }
 
-});
+        function loadItems() {
 
-loadItems();
+            document.getElementById("searchName").value = "";
+            document.getElementById("searchCategory").value = "";
+            document.getElementById("searchType").value = "";
 
-</script>
+            displayItems(getReports());
+        }
+
+        loadItems();
+
+    </script>
 
 </body>
 </html>

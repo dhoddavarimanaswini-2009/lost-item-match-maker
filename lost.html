@@ -3,176 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Lost Item | LostMatch</title>
+    <title>Report Lost Item</title>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            padding: 30px 15px;
-            box-sizing: border-box;
-        }
-
-        .form-container {
-            max-width: 550px;
-            margin: 30px auto;
-            padding: 35px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            box-sizing: border-box;
-        }
-
-        h1 {
-            color: #603cba;
-            text-align: center;
-        }
-
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin: 15px 0 7px;
-            color: #333;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 22px;
-            background: #7048c8;
-            color: white;
-            border: none;
-            border-radius: 9px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #5030a5;
-        }
-
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 25px;
-            color: #603cba;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        #message {
-            text-align: center;
-            color: green;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-    </style>
 </head>
-
 <body>
 
-<div class="form-container">
+    <nav>
+        <h2>🔍 Lost Item Matchmaker</h2>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="lost.html">Report Lost</a>
+            <a href="found.html">Report Found</a>
+            <a href="matches.html">Search Items</a>
+        </div>
+    </nav>
 
-    <h1>Report a Lost Item</h1>
+    <div class="form-container">
+        <h1>😟 Report a Lost Item</h1>
+        <p class="subtitle">Tell us about the item you have lost.</p>
 
-    <p class="subtitle">
-        Lost something on campus? Let us help you find it!
-    </p>
+        <form id="lostForm">
 
-    <form id="lostForm">
+            <label>Item Name</label>
+            <input type="text" id="itemName"
+                   placeholder="e.g. Black Wallet" required>
 
-        <label>Item Name</label>
-        <input type="text" id="itemName"
-               placeholder="Example: Blue Water Bottle" required>
+            <label>Category</label>
+            <select id="category" required>
+                <option value="">Select Category</option>
+                <option>Electronics</option>
+                <option>Books</option>
+                <option>Accessories</option>
+                <option>Documents</option>
+                <option>Clothing</option>
+                <option>Others</option>
+            </select>
 
-        <label>Category</label>
-        <select id="category" required>
-            <option value="">Select Category</option>
-            <option>Electronics</option>
-            <option>Books and Notes</option>
-            <option>ID Cards</option>
-            <option>Clothing</option>
-            <option>Accessories</option>
-            <option>Other</option>
-        </select>
+            <label>Description</label>
+            <textarea id="description"
+                      placeholder="Describe your lost item..."
+                      required></textarea>
 
-        <label>Description</label>
-        <textarea id="description"
-                  placeholder="Describe your lost item"
-                  required></textarea>
+            <label>Location Lost</label>
+            <input type="text" id="location"
+                   placeholder="Where did you lose it?" required>
 
-        <label>Location Lost</label>
-        <input type="text" id="location"
-               placeholder="Where did you lose it?" required>
+            <label>Date Lost</label>
+            <input type="date" id="date" required>
 
-        <label>Date Lost</label>
-        <input type="date" id="date" required>
+            <label>College Email Address</label>
+            <input type="email" id="email"
+                   placeholder="Enter your college email" required>
 
-        <button type="submit">Submit Lost Report</button>
+            <button type="submit" class="btn submit-btn">
+                Submit Lost Report
+            </button>
 
-    </form>
+        </form>
 
-    <p id="message"></p>
+        <p id="message"></p>
 
-    <a href="index.html" class="back">
-        ← Back to Home
-    </a>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
 
-</div>
+    <script>
+        document.getElementById("lostForm").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-<script>
+            const item = {
+                id: Date.now(),
+                name: document.getElementById("itemName").value.trim(),
+                category: document.getElementById("category").value,
+                description: document.getElementById("description").value.trim(),
+                location: document.getElementById("location").value.trim(),
+                date: document.getElementById("date").value,
+                email: document.getElementById("email").value.trim(),
+                type: "lost"
+            };
 
-document.getElementById("lostForm").addEventListener("submit", function(event) {
+            let reports = JSON.parse(localStorage.getItem("lostMatchReports")) || [];
 
-    event.preventDefault();
+            reports.push(item);
 
-    const item = {
-        id: Date.now(),
-        name: document.getElementById("itemName").value.trim(),
-        category: document.getElementById("category").value,
-        description: document.getElementById("description").value.trim(),
-        location: document.getElementById("location").value.trim(),
-        date: document.getElementById("date").value,
-        type: "lost"
-    };
+            localStorage.setItem("lostMatchReports", JSON.stringify(reports));
 
-    let reports = JSON.parse(localStorage.getItem("lostMatchReports")) || [];
+            document.getElementById("message").textContent =
+                "✅ Your lost item report has been submitted successfully!";
 
-    reports.push(item);
-
-    localStorage.setItem("lostMatchReports", JSON.stringify(reports));
-
-    document.getElementById("message").textContent =
-        "Lost item report submitted successfully!";
-
-    this.reset();
-
-});
-
-</script>
+            document.getElementById("lostForm").reset();
+        });
+    </script>
 
 </body>
 </html>
